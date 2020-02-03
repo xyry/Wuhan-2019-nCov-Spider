@@ -29,7 +29,9 @@ if __name__ =='__main__':
     html=gethtml(url,headers)
     soup = BeautifulSoup(html, 'html.parser')
     data = soup.find_all(id='getStatisticsService')
-    s = str(data).split('{')[2].split('}')[0][322:400]
+    # s = str(data).split('{')[2].split('}')[0][322:400]
+    s = str(data).split('{')[2].split('}')[0][322:500]
+	
     list_n = re.findall('\d{1,10}', s)
     # print(list_n)
     # print(str(data))
