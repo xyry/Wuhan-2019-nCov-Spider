@@ -29,25 +29,28 @@ if __name__ =='__main__':
     html=gethtml(url,headers)
     soup = BeautifulSoup(html, 'html.parser')
     data = soup.find_all(id='getStatisticsService')
-    # s = str(data).split('{')[2].split('}')[0][322:400]
-    s = str(data).split('{')[2].split('}')[0][322:500]
-	
+    #一开始这种写法，写死了，一旦网站修改一点，我这就得修改
+    start_id=str(data).find("confirmedCount")
+    end_id=str(data).find("virus")
+    s=str(data)[start_id:end_id]
+    # s = str(data).split('{')[2].split('}')[0][322:500]
     list_n = re.findall('\d{1,10}', s)
     # print(list_n)
+    # print(s)
     # print(str(data))
     s1="确诊人数：" + str(list_n[0]) + "   疑似人数：" + str(list_n[1]) + "   治愈人数：" + str(list_n[2]) + "   死亡人数：" + str(list_n[3])
     s2='数据来源：' + str(url) + " 当前时间：" + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-    # print("确诊人数：", list_n[0], " 疑似人数：", list_n[1], " 治愈人数：", list_n[2], " 死亡人数：", list_n[3])
-    # print('数据来源', url, " 当前时间：", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-    # print(str(s1))
-    # print(str(s2))
+    # # print("确诊人数：", list_n[0], " 疑似人数：", list_n[1], " 治愈人数：", list_n[2], " 死亡人数：", list_n[3])
+    # # print('数据来源', url, " 当前时间：", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    # # # print(str(s1))
+    # # # print(str(s2))
     with open('/mnt/tecmint/ypl_file/cron_job/Wuhan_2019-nCoV.txt','a') as f:
         f.write(str(s2) + '\n')
         f.write(str(s1)+'\n')
         f.write('\n')
     with open('/mnt/tecmint/ypl_file/cron_job/Wuhan_2019-nCoV_RawData.txt','a') as f:
         f.write(str(list_n)+'   '+str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))+'\n')
-
-    # end=time.time()
-
-    # print('耗时:',end-start)
+    #
+    # # end=time.time()
+    #
+    # # print('耗时:',end-start)
